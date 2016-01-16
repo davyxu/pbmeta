@@ -1,0 +1,4 @@
+/protoc-gen-meta/*.exe
+/proto/protoc-gen-go.exe
+/proto/protoc.exe
+/protoc-gen-meta/*.pb
