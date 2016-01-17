@@ -70,6 +70,7 @@ func (self *DescriptorPool) registerMessage(fd *FileDescriptor, md *Descriptor) 
 
 func (self *DescriptorPool) registerEnum(fd *FileDescriptor, ed *EnumDescriptor) {
 	key := fmt.Sprintf("%s.%s", fd.Define.GetPackage(), ed.Name())
+	log.Debugf("reg enum %s", key)
 	self.enumMap[key] = ed
 }
 
