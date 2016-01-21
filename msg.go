@@ -11,9 +11,10 @@ type Descriptor struct {
 	EnumSet
 	CommentMeta
 
-	fieldMap    map[string]*FieldDescriptor
-	fieldArray  []*FieldDescriptor
-	fieldNumMap map[int32]*FieldDescriptor
+	fieldMap     map[string]*FieldDescriptor
+	fieldArray   []*FieldDescriptor
+	fieldNumMap  map[int32]*FieldDescriptor
+	fieldDescMap map[*FieldDescriptor]*FieldDescriptor
 
 	parentPath string
 
@@ -43,6 +44,7 @@ func (self *Descriptor) parse(fd *FileDescriptor) {
 		self.fieldMap[v.GetName()] = newField
 		self.fieldArray[index] = newField
 		self.fieldNumMap[v.GetNumber()] = newField
+		self.fieldDescMap[newField] = newField
 		index++
 	}
 
@@ -70,6 +72,14 @@ func (self *Descriptor) FieldByNumber(number int32) *FieldDescriptor {
 	return nil
 }
 
+func (self *Descriptor) Contains(fd *FieldDescriptor) bool {
+	if v, ok := self.fieldDescMap[fd]; ok && v == fd {
+		return true
+	}
+
+	return false
+}
+
 func (self *Descriptor) Field(index int) *FieldDescriptor {
 	return self.fieldArray[index]
 }
@@ -85,13 +95,14 @@ func newMessageDescriptor(fd *FileDescriptor,
 	dp *DescriptorPool) *Descriptor {
 
 	md := &Descriptor{
-		Define:        raw,
-		dp:            dp,
-		fieldMap:      make(map[string]*FieldDescriptor),
-		fieldNumMap:   make(map[int32]*FieldDescriptor),
-		EnumSet: newEnumSet(dp),
-		CommentMeta:   newCommentMeta(comment),
-		parentPath:    parentPath,
+		Define:       raw,
+		dp:           dp,
+		fieldMap:     make(map[string]*FieldDescriptor),
+		fieldNumMap:  make(map[int32]*FieldDescriptor),
+		fieldDescMap: make(map[*FieldDescriptor]*FieldDescriptor),
+		EnumSet:      newEnumSet(dp),
+		CommentMeta:  newCommentMeta(comment),
+		parentPath:   parentPath,
 	}
 
 	//log.Printf("msg: %s %s", md.Define.GetName(), md.comment.GetLeadingComments())

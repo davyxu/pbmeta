@@ -1,6 +1,7 @@
 package pbmeta
 
 import (
+	"bytes"
 	"fmt"
 
 	pbprotos "github.com/davyxu/pbmeta/proto"
@@ -69,6 +70,17 @@ func (self *EnumDescriptor) Value(index int) *EnumValueDescriptor {
 
 func (self *EnumDescriptor) ValueCount() int {
 	return len(self.valueArray)
+}
+
+func (self *EnumDescriptor) String() string {
+
+	var buffer bytes.Buffer
+
+	for _, def := range self.Define.Value {
+		buffer.WriteString(fmt.Sprintf("%s=%d ", def.GetName(), def.GetNumber()))
+	}
+
+	return buffer.String()
 }
 
 func newEnumDescriptor(fd *FileDescriptor,

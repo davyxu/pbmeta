@@ -23,19 +23,6 @@ func (self *CommentMeta) LeadingComment() string {
 
 }
 
-func (self *CommentMeta) CommentByHeader(headerMarker string) string {
-
-	if strings.Index(self.trailing, headerMarker) == 0 {
-		return strings.TrimSpace(self.trailing[1:])
-	}
-
-	if strings.Index(self.leading, headerMarker) == 0 {
-		return strings.TrimSpace(self.leading[1:])
-	}
-
-	return ""
-}
-
 func (self *CommentMeta) parse() {
 	self.trailing = strings.TrimSpace(self.comment.GetTrailingComments())
 	self.leading = strings.TrimSpace(self.comment.GetLeadingComments())
