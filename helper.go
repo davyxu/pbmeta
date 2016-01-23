@@ -27,3 +27,13 @@ func LoadFileDescriptorSet(filename string) (*pbprotos.FileDescriptorSet, error)
 		File: req.ProtoFile,
 	}, nil
 }
+
+// 根据文件描述符创建描述池
+func CreatePoolByFile(filename string) (*DescriptorPool, error) {
+	fds, err := LoadFileDescriptorSet(filename)
+	if err != nil {
+		return nil, err
+	}
+
+	return NewDescriptorPool(fds), nil
+}
