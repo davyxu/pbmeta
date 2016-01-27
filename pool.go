@@ -76,6 +76,10 @@ func (self *DescriptorPool) registerEnum(fd *FileDescriptor, ed *EnumDescriptor)
 
 func normalizeFullName(name string) string {
 
+	if len(name) == 0 {
+		return ""
+	}
+
 	if name[0:1] == "." {
 		return name[1:]
 	}
