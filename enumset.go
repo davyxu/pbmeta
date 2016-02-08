@@ -27,7 +27,7 @@ func (self *EnumSet) parse(parentDef interface{}, enumArray []*pbprotos.EnumDesc
 
 		path := fmt.Sprintf("%d.%d", fieldNumber, index)
 
-		loc := fd.GetComment(path)
+		loc := fd.Comment(path)
 
 		newEnum := newEnumDescriptor(fd, v, loc, path)
 

@@ -27,7 +27,7 @@ func (self *MessageSet) parse(parentDef interface{}, msgArray []*pbprotos.Descri
 
 		path := fmt.Sprintf("%d.%d", fieldNumber, index)
 
-		newMsg := newMessageDescriptor(fd, def, fd.GetComment(path), path, self.dp)
+		newMsg := newMessageDescriptor(fd, def, fd.Comment(path), path, self.dp)
 
 		// 注册到全局
 		self.dp.registerMessage(fd, newMsg)

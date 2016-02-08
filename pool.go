@@ -64,13 +64,13 @@ func (self *DescriptorPool) registerMessage(fd *FileDescriptor, md *Descriptor) 
 	key := fmt.Sprintf("%s.%s", fd.Define.GetPackage(), md.Name())
 	self.msgMap[key] = md
 
-	log.Debugf("reg msg %s", key)
+	//log.Debugf("reg msg %s", key)
 
 }
 
 func (self *DescriptorPool) registerEnum(fd *FileDescriptor, ed *EnumDescriptor) {
 	key := fmt.Sprintf("%s.%s", fd.Define.GetPackage(), ed.Name())
-	log.Debugf("reg enum %s", key)
+	//log.Debugf("reg enum %s", key)
 	self.enumMap[key] = ed
 }
 
@@ -91,7 +91,7 @@ func normalizeFullName(name string) string {
 // 通过全名取消息
 func (self *DescriptorPool) MessageByFullName(fullname string) *Descriptor {
 
-	if v, ok := self.msgMap[normalizeFullName(fullname)]; ok {
+	if v, ok := self.msgMap[fullname]; ok {
 		return v
 	}
 
@@ -100,7 +100,7 @@ func (self *DescriptorPool) MessageByFullName(fullname string) *Descriptor {
 
 // 通过全名取枚举
 func (self *DescriptorPool) EnumByFullName(fullname string) *EnumDescriptor {
-	if v, ok := self.enumMap[normalizeFullName(fullname)]; ok {
+	if v, ok := self.enumMap[fullname]; ok {
 		return v
 	}
 

@@ -18,13 +18,18 @@ func (self *FieldDescriptor) TypeName() string {
 	return self.Define.GetTypeName()
 }
 
+// pb定义中插件返回的格式时 .package.type.value的格式, 这里返回去掉头的.
+func (self *FieldDescriptor) FullTypeName() string {
+	return normalizeFullName(self.Define.GetTypeName())
+}
+
 func (self *FieldDescriptor) MessageDesc() *Descriptor {
 
-	return self.dp.MessageByFullName(self.Define.GetTypeName())
+	return self.dp.MessageByFullName(self.FullTypeName())
 }
 
 func (self *FieldDescriptor) EnumDesc() *EnumDescriptor {
-	return self.dp.EnumByFullName(self.Define.GetTypeName())
+	return self.dp.EnumByFullName(self.FullTypeName())
 }
 
 func (self *FieldDescriptor) IsRequired() bool {

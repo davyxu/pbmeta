@@ -38,7 +38,7 @@ func (self *EnumDescriptor) parse(fd *FileDescriptor) {
 
 		path := fmt.Sprintf("%s.%d.%d", self.parentPath, fieldNumber, index)
 
-		newValue := newEnumValueDescriptor(def, fd.GetComment(path))
+		newValue := newEnumValueDescriptor(def, fd.Comment(path))
 
 		// 添加新的字段描述符
 		self.valueMap[def.GetName()] = newValue

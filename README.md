@@ -27,7 +27,10 @@ http://www.cppblog.com/sunicdavy/archive/2015/03/01/209894.html
 如果官方有descriptor的更新,可以根据下面方法进行更新,重新生成golang代码
 
 go get https://github.com/google/protobuf
+
 go get https://github.com/golang/protobuf
+
+go install https://github.com/golang/protobuf/protoc-gen-go
 
 确保本项目与上面两个项目在同一个GOPATH下
 

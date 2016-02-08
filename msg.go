@@ -38,7 +38,7 @@ func (self *Descriptor) parse(fd *FileDescriptor) {
 
 		path := fmt.Sprintf("%s.%d.%d", self.parentPath, fieldNumber, index)
 
-		newField := newFieldDescriptor(v, fd.GetComment(path), self.dp)
+		newField := newFieldDescriptor(v, fd.Comment(path), self.dp)
 
 		// 添加新的字段描述符
 		self.fieldMap[v.GetName()] = newField

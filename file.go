@@ -61,7 +61,7 @@ func (self *FileDescriptor) PackageName() string {
 	return self.Define.GetPackage()
 }
 
-func (self *FileDescriptor) GetComment(path string) *pbprotos.SourceCodeInfo_Location {
+func (self *FileDescriptor) Comment(path string) *pbprotos.SourceCodeInfo_Location {
 	if v, ok := self.commentMap[path]; ok {
 		return v
 	}
@@ -72,9 +72,9 @@ func (self *FileDescriptor) GetComment(path string) *pbprotos.SourceCodeInfo_Loc
 func newFileDescriptor(raw *pbprotos.FileDescriptorProto, dp *DescriptorPool) *FileDescriptor {
 
 	fd := &FileDescriptor{
-		Define:           raw,
-		dp:               dp,
-		commentMap:       make(map[string]*pbprotos.SourceCodeInfo_Location),
+		Define:     raw,
+		dp:         dp,
+		commentMap: make(map[string]*pbprotos.SourceCodeInfo_Location),
 		EnumSet:    newEnumSet(dp),
 		MessageSet: newMessageSet(dp),
 	}
