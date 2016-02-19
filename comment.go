@@ -23,6 +23,42 @@ func (self *CommentMeta) LeadingComment() string {
 
 }
 
+const oldStyleMarker = "@"
+
+const newStyleMarker = "[tabtoy]"
+
+func (self *CommentMeta) findOldStyleComment() string {
+	if pos := strings.Index(self.trailing, oldStyleMarker); pos == 0 {
+		return strings.TrimSpace(self.trailing[len(oldStyleMarker):])
+	} else if strings.Index(self.leading, oldStyleMarker) == 0 {
+		return strings.TrimSpace(self.leading[len(oldStyleMarker):])
+	}
+
+	return ""
+}
+
+// 解析带有tag的comment, 类似于go结构体中的命名tag
+func (self *CommentMeta) ParseTaggedComment() []*TaggedComment {
+
+	commentArray := make([]*TaggedComment, 0)
+
+	// 解析新的样式
+	parseTaggedComment(self.leading, commentArray)
+	parseTaggedComment(self.trailing, commentArray)
+
+	// 兼容老的样式
+	if oldcomment := self.findOldStyleComment(); oldcomment != "" {
+
+		commentArray = append(commentArray, &TaggedComment{
+			Name: "@",
+			Data: oldcomment,
+		})
+
+	}
+
+	return commentArray
+}
+
 func (self *CommentMeta) parse() {
 	self.trailing = strings.TrimSpace(self.comment.GetTrailingComments())
 	self.leading = strings.TrimSpace(self.comment.GetLeadingComments())
