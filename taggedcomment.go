@@ -2,6 +2,7 @@ package pbmeta
 
 import (
 	"bytes"
+	"strings"
 )
 
 type TaggedComment struct {
@@ -16,17 +17,15 @@ const (
 	stateMetaString
 )
 
-func parseTaggedComment(src string, commentArray []*TaggedComment) int {
+func parseTaggedComment(src string, commentArray []*TaggedComment) []*TaggedComment {
 
-	lex := newCommentLexer(src)
+	lex := newCommentLexer(strings.TrimSpace(src))
 
 	var buff bytes.Buffer
 	var state int = stateTagBegin
 	var cmt *TaggedComment
 	var c byte
 	var ok bool
-
-	var retCount int
 
 	// 不要新区, 用上次的
 	var keep bool
@@ -49,7 +48,7 @@ func parseTaggedComment(src string, commentArray []*TaggedComment) int {
 		switch state {
 		case stateTagBegin:
 			if c != '[' {
-				return retCount
+				return commentArray
 			}
 
 			cmt = new(TaggedComment)
@@ -76,7 +75,6 @@ func parseTaggedComment(src string, commentArray []*TaggedComment) int {
 				// 这个已经完成
 				cmt.Data = buff.String()
 				commentArray = append(commentArray, cmt)
-				retCount++
 
 				// 开始探测新的tag开始
 				state = stateTagBegin
@@ -123,10 +121,9 @@ parseEnd:
 	if cmt != nil {
 		cmt.Data = buff.String()
 		commentArray = append(commentArray, cmt)
-		retCount++
 	}
 
-	return retCount
+	return commentArray
 
 }
 

@@ -44,6 +44,14 @@ func (self *FieldDescriptor) IsRepeated() bool {
 	return self.Define.GetLabel() == pbprotos.FieldDescriptorProto_LABEL_REPEATED
 }
 
+func (self *FieldDescriptor) IsMessageType() bool {
+	return self.Define.GetType() == pbprotos.FieldDescriptorProto_TYPE_MESSAGE
+}
+
+func (self *FieldDescriptor) IsEnumType() bool {
+	return self.Define.GetType() == pbprotos.FieldDescriptorProto_TYPE_ENUM
+}
+
 func (self *FieldDescriptor) Label() pbprotos.FieldDescriptorProto_Label {
 	return self.Define.GetLabel()
 }

@@ -43,8 +43,8 @@ func (self *CommentMeta) ParseTaggedComment() []*TaggedComment {
 	commentArray := make([]*TaggedComment, 0)
 
 	// 解析新的样式
-	parseTaggedComment(self.leading, commentArray)
-	parseTaggedComment(self.trailing, commentArray)
+	commentArray = parseTaggedComment(self.leading, commentArray)
+	commentArray = parseTaggedComment(self.trailing, commentArray)
 
 	// 兼容老的样式
 	if oldcomment := self.findOldStyleComment(); oldcomment != "" {

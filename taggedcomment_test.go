@@ -8,7 +8,7 @@ func TestComment(t *testing.T) {
 
 	s := "[tabtoy] a:b [table] \" \\\"c:d \\\"[ \" "
 	t.Logf("|%s|", s)
-	cmtarr := parseTaggedComment(s)
+	cmtarr := parseTaggedComment(s, make([]*TaggedComment, 0))
 
 	if len(cmtarr) != 2 {
 		t.Fail()
@@ -30,7 +30,7 @@ func TestComment(t *testing.T) {
 		t.Fatal("2 name failed", cmtarr[1].Name)
 	}
 
-	if cmtarr[1].Data != " \" \"c:d \"[ \" " {
+	if cmtarr[1].Data != " \" \"c:d \"[ \"" {
 		t.Fail()
 		t.Fatal("2 meta failed", cmtarr[1].Data)
 	}
