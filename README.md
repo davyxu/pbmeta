@@ -18,6 +18,10 @@ Google Protobuf的Golang的Descriptor系列的封装扩展
 
 * 通过pbmeta库读取
 
+# 功能实现及限制
+
+* 嵌套结构不能被很好的支持, 建议使用全局结构
+
 
 # 原理参考
 我的博客有核心原理描述

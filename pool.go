@@ -36,6 +36,19 @@ func NewDescriptorPool(fds *pbprotos.FileDescriptorSet) *DescriptorPool {
 		newFD := newFileDescriptor(def, self)
 		self.fileMap[def.GetName()] = newFD
 		self.fileArray[i] = newFD
+
+		// 注册到全局
+		for m := 0; m < newFD.MessageCount(); m++ {
+			msg := newFD.Message(m)
+
+			self.registerMessage(newFD, msg)
+		}
+
+		for e := 0; e < newFD.EnumCount(); e++ {
+			en := newFD.Enum(e)
+
+			self.registerEnum(newFD, en)
+		}
 	}
 
 	return self

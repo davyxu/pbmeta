@@ -29,8 +29,7 @@ func (self *MessageSet) parse(parentDef interface{}, msgArray []*pbprotos.Descri
 
 		newMsg := newMessageDescriptor(fd, def, fd.Comment(path), path, self.dp)
 
-		// 注册到全局
-		self.dp.registerMessage(fd, newMsg)
+		
 
 		self.msgMap[def.GetName()] = newMsg
 		self.msgArray[index] = newMsg

@@ -7,14 +7,15 @@ import (
 )
 
 type Descriptor struct {
-	Define *pbprotos.DescriptorProto
-	EnumSet
+	Define  *pbprotos.DescriptorProto
+	EnumSet // 内嵌枚举
 	CommentMeta
 
 	fieldMap     map[string]*FieldDescriptor
 	fieldArray   []*FieldDescriptor
 	fieldNumMap  map[int32]*FieldDescriptor
 	fieldDescMap map[*FieldDescriptor]*FieldDescriptor
+	NestedMsg    MessageSet // 内嵌结构
 
 	parentPath string
 
@@ -38,7 +39,7 @@ func (self *Descriptor) parse(fd *FileDescriptor) {
 
 		path := fmt.Sprintf("%s.%d.%d", self.parentPath, fieldNumber, index)
 
-		newField := newFieldDescriptor(v, fd.Comment(path), self.dp)
+		newField := newFieldDescriptor(self, v, fd.Comment(path), self.dp)
 
 		// 添加新的字段描述符
 		self.fieldMap[v.GetName()] = newField
@@ -47,6 +48,8 @@ func (self *Descriptor) parse(fd *FileDescriptor) {
 		self.fieldDescMap[newField] = newField
 		index++
 	}
+
+	self.NestedMsg.parse(self.Define, self.Define.NestedType, "NestedType", fd)
 
 	self.EnumSet.parse(self.Define, self.Define.EnumType, fd)
 
@@ -101,6 +104,7 @@ func newMessageDescriptor(fd *FileDescriptor,
 		fieldNumMap:  make(map[int32]*FieldDescriptor),
 		fieldDescMap: make(map[*FieldDescriptor]*FieldDescriptor),
 		EnumSet:      newEnumSet(dp),
+		NestedMsg:    newMessageSet(dp),
 		CommentMeta:  newCommentMeta(comment),
 		parentPath:   parentPath,
 	}

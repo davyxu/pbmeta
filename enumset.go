@@ -31,9 +31,6 @@ func (self *EnumSet) parse(parentDef interface{}, enumArray []*pbprotos.EnumDesc
 
 		newEnum := newEnumDescriptor(fd, v, loc, path)
 
-		// 注册到全局
-		self.dp.registerEnum(fd, newEnum)
-
 		self.enumMap[v.GetName()] = newEnum
 		self.enumArray[index] = newEnum
 		index++
