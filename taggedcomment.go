@@ -48,7 +48,7 @@ func parseTaggedComment(src string, commentArray []*TaggedComment) []*TaggedComm
 		switch state {
 		case stateTagBegin:
 			if c != '[' {
-				return commentArray
+				continue
 			}
 
 			cmt = new(TaggedComment)

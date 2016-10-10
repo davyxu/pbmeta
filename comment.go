@@ -23,15 +23,13 @@ func (self *CommentMeta) LeadingComment() string {
 
 }
 
-const oldStyleMarker = "@"
+const simpleStyleMarker = "@"
 
-const newStyleMarker = "[tabtoy]"
-
-func (self *CommentMeta) findOldStyleComment() string {
-	if pos := strings.Index(self.trailing, oldStyleMarker); pos == 0 {
-		return strings.TrimSpace(self.trailing[len(oldStyleMarker):])
-	} else if strings.Index(self.leading, oldStyleMarker) == 0 {
-		return strings.TrimSpace(self.leading[len(oldStyleMarker):])
+func (self *CommentMeta) findSimpleStyleComment() string {
+	if pos := strings.Index(self.trailing, simpleStyleMarker); pos == 0 {
+		return strings.TrimSpace(self.trailing[len(simpleStyleMarker):])
+	} else if strings.Index(self.leading, simpleStyleMarker) == 0 {
+		return strings.TrimSpace(self.leading[len(simpleStyleMarker):])
 	}
 
 	return ""
@@ -40,23 +38,40 @@ func (self *CommentMeta) findOldStyleComment() string {
 // 解析带有tag的comment, 类似于go结构体中的命名tag
 func (self *CommentMeta) ParseTaggedComment() []*TaggedComment {
 
-	commentArray := make([]*TaggedComment, 0)
+	var commentArray []*TaggedComment
 
 	// 解析新的样式
 	commentArray = parseTaggedComment(self.leading, commentArray)
 	commentArray = parseTaggedComment(self.trailing, commentArray)
 
-	// 兼容老的样式
-	if oldcomment := self.findOldStyleComment(); oldcomment != "" {
+	// 兼容简单的样式
+	if simplecomment := self.findSimpleStyleComment(); simplecomment != "" {
 
 		commentArray = append(commentArray, &TaggedComment{
 			Name: "@",
-			Data: oldcomment,
+			Data: simplecomment,
 		})
 
 	}
 
 	return commentArray
+}
+
+func (self *CommentMeta) FindTaggedComment(name string) (string, bool) {
+
+	taggedComment := self.ParseTaggedComment()
+	if len(taggedComment) == 0 {
+		return "", false
+	}
+
+	for _, c := range taggedComment {
+		if c.Name == name {
+			return c.Data, true
+		}
+	}
+
+	return "", false
+
 }
 
 func (self *CommentMeta) parse() {
