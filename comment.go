@@ -6,6 +6,10 @@ import (
 	pbprotos "github.com/davyxu/pbmeta/proto"
 )
 
+type TaggedComment struct {
+	Name string
+	Data string
+}
 type CommentMeta struct {
 	comment *pbprotos.SourceCodeInfo_Location
 
