@@ -22,7 +22,7 @@ type CommentParser struct {
 
 func parseTaggedComment(src string, commentArray []*TaggedComment) []*TaggedComment {
 
-	return NewCommentParser().Run(src, commentArray)
+	return NewCommentParser(src).Run(src, commentArray)
 }
 
 func (self *CommentParser) Run(src string, commentArray []*TaggedComment) (ret []*TaggedComment) {
@@ -85,7 +85,7 @@ func (self *CommentParser) Run(src string, commentArray []*TaggedComment) (ret [
 	return commentArray
 }
 
-func NewCommentParser() *CommentParser {
+func NewCommentParser(srcName string) *CommentParser {
 
 	l := golexer.NewLexer()
 
@@ -103,6 +103,6 @@ func NewCommentParser() *CommentParser {
 	l.AddMatcher(golexer.NewUnknownMatcher(Token_Unknown))
 
 	return &CommentParser{
-		Parser: golexer.NewParser(l),
+		Parser: golexer.NewParser(l, srcName),
 	}
 }
