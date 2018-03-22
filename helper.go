@@ -3,9 +3,9 @@ package pbmeta
 import (
 	"io/ioutil"
 
-	pbprotos "github.com/davyxu/pbmeta/proto"
-	pbcompiler "github.com/davyxu/pbmeta/proto/compiler"
-	"github.com/golang/protobuf/proto"
+	"github.com/gogo/protobuf/proto"
+	pbprotos "github.com/gogo/protobuf/protoc-gen-gogo/descriptor"
+	pbcompiler "github.com/gogo/protobuf/protoc-gen-gogo/plugin"
 )
 
 // 文件格式必须是由protoc-gen-meta输出的CodeGeneratorRequest格式

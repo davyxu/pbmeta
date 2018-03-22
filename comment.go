@@ -3,7 +3,7 @@ package pbmeta
 import (
 	"strings"
 
-	pbprotos "github.com/davyxu/pbmeta/proto"
+	pbprotos "github.com/gogo/protobuf/protoc-gen-gogo/descriptor"
 )
 
 type TaggedComment struct {

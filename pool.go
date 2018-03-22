@@ -3,7 +3,7 @@ package pbmeta
 import (
 	"fmt"
 
-	pbprotos "github.com/davyxu/pbmeta/proto"
+	pbprotos "github.com/gogo/protobuf/protoc-gen-gogo/descriptor"
 )
 
 type DescriptorPool struct {

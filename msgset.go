@@ -3,7 +3,7 @@ package pbmeta
 import (
 	"fmt"
 
-	pbprotos "github.com/davyxu/pbmeta/proto"
+	pbprotos "github.com/gogo/protobuf/protoc-gen-gogo/descriptor"
 )
 
 type MessageSet struct {
@@ -28,8 +28,6 @@ func (self *MessageSet) parse(parentDef interface{}, msgArray []*pbprotos.Descri
 		path := fmt.Sprintf("%d.%d", fieldNumber, index)
 
 		newMsg := newMessageDescriptor(fd, def, fd.Comment(path), path, self.dp)
-
-		
 
 		self.msgMap[def.GetName()] = newMsg
 		self.msgArray[index] = newMsg
